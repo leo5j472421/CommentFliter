@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+{% load custom_tags %}
+
+<!--
+Design by TEMPLATED
+http://templated.co
+Released for free under the Creative Commons Attribution License
+
+Name       : Conventional 
+Description: A two-column, fixed-width design with dark color scheme.
+Version    : 1.0
+Released   : 20130128
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Comment Filter</title>
+
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+
+<link href='http://fonts.googleapis.com/css?family=Archivo+Narrow:400,700|Open+Sans:400,600,700' rel='stylesheet' type='text/css' />
+<link rel="stylesheet" href="/static/css/default.css" type = "text/css" media="all" />
+<script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<link rel="stylesheet" href="/static/css/btn.css" type = "text/css" media="all" />
+<link rel="stylesheet" href="/static/css/feedbackBtn.css" type = "text/css" media="all" />
+
+<!--
+<link rel="stylesheet" href="/static/css/bootstrap.min.css" type = "text/css" media="all" />
+<script src="/static/js/bootstrap.min.js"></script>
+-->
+
+<!--[if IE 6]>
+<link href="default_ie6.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+</head>
+<body>
+	<div id="page" class="container">
+		<div id="content">
+			<div>
+				<ul class="style1">
+                     {%for video in videos %}
+                             <li>                          
+                                 <div style = "overflow:hidden; line-height:48px;" ><em><img src="{{video.picture}}" alt="" width="48" height="48" class="alignleft border" /></em>
+								 <a href="/back?youtube_address={{video.id}}" ><h3>{{video.title}}</h3></a></div>
+                                 <div class="pp"><p class="NM">{{video.description}}</p></div>                                 
+								 <!--<button class="Wrong" onclick="FeedBack(this)" >Wrong</button>-->
+                                
+                             </li>
+                     {%endfor%}
+					 <li id="NotMachine">
+					 <input type='hidden' id = 'PageToken' value = '{{PageToken}}'>
+           <input type='hidden' id = 'ID' value = '{{ID}}'>
+					 </li>
+                 </ul>
+			</div>
+		</div>
+	</div>
+ 
+	{% if more %}
+        <div id="btnStyle">
+            <button id="Load" data-label="Load More!" onclick="LoadMore()">Load More!</button>
+        </div>   
+	{%endif%}
+
+    
+
+	<div id="footer">
+		<p>&copy; Copyright LiAn-Huang and Leo.</p>
+        
+	</div>
+    
+</div>
+<script>
+function slide(btn){ 
+  $(btn).parent().slideToggle();
+  if ( $(btn).hasClass("close") ){
+    $(btn).parent().prev().slideToggle(); 
+   }
+  else{
+    $(btn).parent().next().slideToggle();
+  }
+}
+</script>
+
+</body>
+</html>
+<script>
+    function openpage(bb){
+      alert($(bb).attr('class'))
+   }
+  function LoadMore() {
+      var PageToken = $("#PageToken").val() ;
+      var ID = $("#ID").val() ;
+        
+      $.get("/LoadMoreComments/",{'PageToken':PageToken,'ID':ID}, function(ret){
+          NM = ret.split('@!CUT!@')[0] ;
+          M = ret.split('@!CUT!@')[1] ;
+          $('#NotMachine').replaceWith(NM) ;
+          $('#Machine').replaceWith(M) ;
+      })
+      
+      if ($("#PageToken").val()=='null'){
+        alert('NO MORE!!!!!')
+		$('#Load').replaceWith("No MORE!!!")
+	  }
+      else {
+        //setTimeout( function(){ $('#Load').replaceWith('<button id="Load" data-label="Load More!" onclick="LoadMore()">Load More!</button>');}, 2500)
+        //$('#Load').replaceWith('<button id="Load" class="btn btn-primary" onclick="LoadMore()">Load More</button>') ;
+      }
+	 
+  }
+  
+  function FeedBack(btn) {
+    var text = $(btn).siblings("div.pp").text() ;
+    var label = $(btn).siblings("div.pp").children().hasClass("NM") ;
+    var video = $("#video_name").text() ;
+    lab = label.toString() ;
+    text = text.toString() ;
+	//alert('Thanks for your feedback') ;
+    $.get("/Feedback/",{'label':label,'text':text,'video':video}, function(ret){
+       })
+
+    var fb = '<div><p style=\'color:red\'; >Thanks for your feedback</p><button onclick="slide(this)" >Open</button></div>'
+    var comment = '<li>'+fb + '<div style="display: none;">'+$(btn).siblings("div").prop('outerHTML')+$(btn).siblings("div.pp").prop('outerHTML')+'<button class="close" onclick="slide(this)" >Close</button></div></li>'
+    $(btn).parent().replaceWith(comment)
+    
+  }
+  
+  
+
+</script>
+
+<script>
+    var loading = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.target.classList.add('loading');
+    e.target.setAttribute('disabled','disabled');
+    setTimeout(function(){
+        e.target.classList.remove('loading');
+        e.target.removeAttribute('disabled');
+    },8000);
+    };
+
+    var btns = document.querySelectorAll('#Load');
+    for (var i=btns.length-1;i>=0;i--) {
+        btns[i].addEventListener('click',loading);
+    }   
+</script>
+
+<script type="text/javascript">
+
+// create the back to top button
+$('body').prepend('<a href="#" class="back-to-top">Back to Top</a>');
+
+var amountScrolled = 300;
+
+$(window).scroll(function() {
+	if ( $(window).scrollTop() > amountScrolled ) {
+		$('a.back-to-top').fadeIn('slow');
+	} else {
+		$('a.back-to-top').fadeOut('slow');
+	}
+});
+
+$('a.back-to-top, a.simple-back-to-top').click(function() {
+	$('html, body').animate({
+		scrollTop: 0
+	}, 700);
+	return false;
+});
+</script>

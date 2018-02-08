@@ -1,0 +1,184 @@
+<!DOCTYPE HTML>
+<!--
+	Full Motion by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Comment Filter</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="/static/css/btn.css" type = "text/css" media="all" />
+        <link rel="stylesheet" href="/static/css/mains.css" />
+        <link rel="stylesheet" href="/static/css/default.css" type = "text/css" media="all" />
+	</head>
+	<body id="top">
+	<div id="wrapper">
+<div id="header-wrapper">
+		<div id="header" class="container">
+			<div id="logo">
+				<h1><a href="/home/">CommentFilter</a></h1>
+			</div>
+			<div id="menu">
+				<ul>
+					<li><a href="/home/" accesskey="1" title="">Homepage</a></li>
+					<li><a href="/table/" accesskey="2" title="">History</a></li>
+					
+					<li class="active"><a href="/hot/" accesskey="4" title="">Hot video</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+			<!-- Banner -->
+			<!--
+				To use a video as your background, set data-video to the name of your video without
+				its extension (eg. images/banner). Your video must be available in both .mp4 and .webm
+				formats to work correctly.
+			-->
+				
+
+			<!-- Main -->
+				<div id="main">
+				
+					<form action="/search/" method = "get">
+						<input type="text" class="text" style = "width:60%;margin: 5px auto;" value="Search the video you like..." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search the video you like...';}" name="youtube_address" >
+						
+					</form>
+					<select name="sweets" class="option">
+						<option value="def" style="color:black">請選擇區域</option>
+						<option value="TW" style="color:black">Taiwan</option>
+						<option value="US" style="color:black">United States</option>
+						<option value="KR" style="color:black">South Korea</option>
+						<option value="JP" style="color:black">Japan</option>
+					</select>
+<script>
+$( "select" )
+  .change(function () {
+    if ( $( "select option:selected" ).val()!='def'){
+    window.location.replace("/hot?ID="+$( "select option:selected" ).val());
+    }
+  }) ;
+</script>
+					<div class="inner">
+
+					<!-- Boxes -->
+						<div class="thumbnails">
+                           {%for video in videos%}
+							<div class="box">
+								<a href="/back?youtube_address={{video.id}}" class="image fit"><img onclick="img(this)"  src="{{video.picture}}" alt="" /></a>
+								<div class="inner">
+									<h3>{{video.title}}</h3>
+									
+									<!--<a href="/back?youtube_address={{video.id}}" class="button fit" >Watch</a>-->
+                                    <!--br>
+                                    <div id="btnStyle">
+                                        <button  id="Load" data-label="Watch!" onclick="Watch('{{video.id}}')">Watch</button>
+                                    </div-->   
+								</div>
+							</div>
+                           {%endfor%}
+							<div class="change">
+								<input type='hidden' id = 'PageToken' value = '{{PageToken}}'>
+								<input type='hidden' id = 'ID' value = '{{ID}}'>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+					{% if more %}
+				<div id="btnStyle">
+					<button id="Load" data-label="Load More!" onclick="LoadMore()">Load More!</button>
+				</div>   
+					{%endif%}
+			<!-- Footer -->
+				<footer id="footer">
+					<div class="inner">
+					
+						<p>&copy; Copyright LiAn-Huang and Leo.</p>
+					</div>
+				</footer>
+
+		<!-- Scripts -->
+			<script src="/static/js/jquery.min.js"></script>
+			<script src="/static/js/jquery.scrolly.min.js"></script>
+			<script src="/static/js/jquery.poptrox.min.js"></script>
+			<script src="/static/js/skel.min.js"></script>
+			<!--<script src="/static/js/util.js"></script>-->
+			<script src="/static/js/mains.js"></script>
+</div>
+	</body>
+</html>
+
+<script type="text/javascript">
+function img(aaa){
+  $(aaa).replaceWith('<img class="image fit" width="320" height="240" src="/static/images/ajax-loader.gif" alt="" />')
+}
+
+  function LoadMore() {
+      var PageToken = $("#PageToken").val() ;
+      var ID = $("#ID").val() ;
+        
+      $.get("/LoadMoreVideos/",{'PageToken':PageToken,'ID':ID}, function(ret){
+          $('.change').replaceWith(ret) ;
+      })
+      
+      if ($("#PageToken").val()=='null'){
+        alert('NO MORE!!!!!')
+		$('#Load').replaceWith("No MORE!!!")
+	  }
+      else {
+        //setTimeout( function(){ $('#Load').replaceWith('<button id="Load" data-label="Load More!" onclick="LoadMore()">Load More!</button>');}, 2500)
+        //$('#Load').replaceWith('<button id="Load" class="btn btn-primary" onclick="LoadMore()">Load More</button>') ;
+      }
+	 
+  }
+  
+  function Watch( video_id) {
+      
+      javascript:location.href='/back?youtube_address='+video_id
+  }
+
+// create the back to top button
+$('body').prepend('<a href="#" class="back-to-top">Back to Top</a>');
+
+var amountScrolled = 300;
+
+$(window).scroll(function() {
+	if ( $(window).scrollTop() > amountScrolled ) {
+		$('a.back-to-top').fadeIn('slow');
+	} else {
+		$('a.back-to-top').fadeOut('slow');
+	}
+});
+
+$('a.back-to-top, a.simple-back-to-top').click(function() {
+	$('html, body').animate({
+		scrollTop: 0
+	}, 700);
+	return false;
+});
+
+
+</script>
+
+<script>
+    var loading = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.target.classList.add('loading');
+    e.target.setAttribute('disabled','disabled');
+    setTimeout(function(){
+        e.target.classList.remove('loading');
+        e.target.removeAttribute('disabled');
+    },2000);
+    };
+
+    var btns = document.querySelectorAll('#Load');
+    for (var i=btns.length-1;i>=0;i--) {
+        btns[i].addEventListener('click',loading);
+    }   
+</script>

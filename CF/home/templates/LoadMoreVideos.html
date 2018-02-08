@@ -1,0 +1,18 @@
+							{%for video in videos%}
+							<div class="box">
+								<a href="/back?youtube_address={{video.id}}" class="image fit"><img onclick="img(this)"  src="{{video.picture}}" alt="" /></a>
+								<div class="inner">
+									<h3>{{video.title}}</h3>
+									
+									<!--<a href="/back?youtube_address={{video.id}}" class="button fit" >Watch</a>-->
+                                    <!--br>
+                                    <div id="btnStyle">
+                                        <button  id="Load" data-label="Watch!" onclick="Watch('{{video.id}}')">Watch</button>
+                                    </div-->   
+								</div>
+							</div>
+                           {%endfor%}
+							<div class="change">
+								<input type='hidden' id = 'PageToken' value = '{{PageToken}}'>
+								<input type='hidden' id = 'ID' value = '{{ID}}'>
+							</div>

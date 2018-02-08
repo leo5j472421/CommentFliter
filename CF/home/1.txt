@@ -1,0 +1,8 @@
+https://en.wikipedia.org/wiki/Django_(web_framework)
+Django (web framework)
+From Wikipedia, the free encyclopedia
+1	History
+2	Features
+2.1	Components
+2.2	Bundled applications
+2.3	Extensibility

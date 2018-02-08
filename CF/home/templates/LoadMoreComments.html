@@ -1,0 +1,30 @@
+{%for comment in comments %}
+    {%if comment.Machine == False %} 
+         <li>               
+             <div style = "overflow:hidden; line-height:48px;" ><em><img src="{{comment.ProfileUrl}}" alt="" width="48" height="48" class="alignleft border" /></em>
+             <a href="{{comment.UserUrl}}"><h3>{{comment.UserName}}</h3></a></div>
+             <div class="pp"><p class="NM">{{comment.Text}}</p></div>
+			 <a class="myButton"  onclick="FeedBack(this)">Machine</a>
+		</li>
+    {%endif%}
+{%endfor%}
+
+        <li id="NotMachine">
+            <input type='hidden' id = 'PageToken' value = '{{PageToken}}'>
+            <input type='hidden' id = 'ID' value = '{{ID}}'>
+        </li>
+        
+      
+ @!CUT!@
+ 
+{%for comment in comments %}
+    {%if comment.Machine == True %} 
+        <li>               
+            <div style = "overflow:hidden; line-height:48px;" ><em><img src="{{comment.ProfileUrl}}" alt="" width="48" height="48" class="alignleft border" /></em>
+            <a href="{{comment.UserUrl}}"><h3>{{comment.UserName}}</h3></a></div>
+            <div class="pp"><p class="M">{{comment.Text}}</p></div>
+			<a class="myButton"  onclick="FeedBack(this)">Not Machine</a>
+	{%endif%}
+{%endfor%}
+		 <li id="Machine">
+		 </li>

@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+<!--
+	Full Motion by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>Comment Filter</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="/static/css/mains.css" />
+        <link href='http://fonts.googleapis.com/css?family=Archivo+Narrow:400,700|Open+Sans:400,600,700' rel='stylesheet' type='text/css' />
+        <script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="/static/css/default.css" type = "text/css" media="all" />
+        <link rel="stylesheet" href="/static/css/btn.css" type = "text/css" media="all" />
+	</head>
+	<body id="top">
+
+			<!-- Banner -->
+			<!--
+				To use a video as your background, set data-video to the name of your video without
+				its extension (eg. images/banner). Your video must be available in both .mp4 and .webm
+				formats to work correctly.
+			-->
+				
+
+			<!-- Main -->
+				<div id="main">
+				
+					<form action="/search/" method = "get">
+						<input type="text" class="text option" value="Search the video you like..." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search the video you like...';}" name="youtube_address" >
+					</form>'
+					<select name="sweets" class="option">
+						<option value="def">請選擇區域</option>
+						<option value="TW">Taiwan</option>
+						<option value="US">United States</option>
+						<option value="KR">South Korea</option>
+						<option value="JP">Japan</option>
+					</select>
+
+					<div class="inner">
+
+					<!-- Boxes -->
+						<div class="thumbnails">
+                           {%for video in videos%}
+							<div class="box">
+								<a href="/back?youtube_address={{video.id}}" class="image fit"><img onclick="img(this)"  src="{{video.picture}}" alt="" /></a>
+								<div class="inner">
+									<h3>{{video.title}}</h3>
+									
+									<!--<a href="/back?youtube_address={{video.id}}" class="button fit" >Watch</a>-->
+                                    <!--br>
+                                    <div id="btnStyle">
+                                        <button  id="Load" data-label="Watch!" onclick="Watch('{{video.id}}')">Watch</button>
+                                    </div-->   
+								</div>
+							</div>
+                           {%endfor%}
+							<div class="change">
+								<input type='hidden' id = 'PageToken' value = '{{PageToken}}'>
+								<input type='hidden' id = 'ID' value = '{{ID}}'>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+					{% if more %}
+				<div id="btnStyle">
+					<button id="Load" data-label="Load More!" onclick="LoadMore()">Load More!</button>
+				</div>   
+					{%endif%}
+			<!-- Footer -->
+				<footer id="footer">
+					<div class="inner">
+						<h2>Etiam veroeros lorem</h2>
+						<p>Pellentesque eleifend malesuada efficitur. Curabitur volutpat dui mi, ac imperdiet dolor tincidunt nec. Ut erat lectus, dictum sit amet lectus a, aliquet rutrum mauris. Etiam nec lectus hendrerit, consectetur risus viverra, iaculis orci. Phasellus eu nibh ut mi luctus auctor. Donec sit amet dolor in diam feugiat venenatis. </p>
+
+						<ul class="icons">
+							<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+							<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+							<li><a href="#" class="icon fa-envelope"><span class="label">Email</span></a></li>
+						</ul>
+						<p>&copy; Copyright LiAn-Huang and Leo.</p>
+					</div>
+				</footer>
+
+		<!-- Scripts -->
+			<script src="/static/js/jquery.min.js"></script>
+			<script src="/static/js/jquery.scrolly.min.js"></script>
+			<script src="/static/js/jquery.poptrox.min.js"></script>
+			<script src="/static/js/skel.min.js"></script>
+			<!--<script src="/static/js/util.js"></script>-->
+			<script src="/static/js/mains.js"></script>
+
+	</body>
+</html>
+
+<script type="text/javascript">
+function img(aaa){
+  $(aaa).replaceWith('<img class="image fit" width="320" height="240" src="/static/images/ajax-loader.gif" alt="" />')
+}
+
+  function LoadMore() {
+      var PageToken = $("#PageToken").val() ;
+      var ID = $("#ID").val() ;
+        
+      $.get("/LoadMoreVideos/",{'PageToken':PageToken,'ID':ID}, function(ret){
+          $('.change').replaceWith(ret) ;
+      })
+      
+      if ($("#PageToken").val()=='null'){
+        alert('NO MORE!!!!!')
+		$('#Load').replaceWith("No MORE!!!")
+	  }
+      else {
+        //setTimeout( function(){ $('#Load').replaceWith('<button id="Load" data-label="Load More!" onclick="LoadMore()">Load More!</button>');}, 2500)
+        //$('#Load').replaceWith('<button id="Load" class="btn btn-primary" onclick="LoadMore()">Load More</button>') ;
+      }
+	 
+  }
+  
+  function Watch( video_id) {
+      
+      javascript:location.href='/back?youtube_address='+video_id
+  }
+
+// create the back to top button
+$('body').prepend('<a href="#" class="back-to-top">Back to Top</a>');
+
+var amountScrolled = 300;
+
+$(window).scroll(function() {
+	if ( $(window).scrollTop() > amountScrolled ) {
+		$('a.back-to-top').fadeIn('slow');
+	} else {
+		$('a.back-to-top').fadeOut('slow');
+	}
+});
+
+$('a.back-to-top, a.simple-back-to-top').click(function() {
+	$('html, body').animate({
+		scrollTop: 0
+	}, 700);
+	return false;
+});
+
+
+</script>
+
+<script>
+    var loading = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.target.classList.add('loading');
+    e.target.setAttribute('disabled','disabled');
+    setTimeout(function(){
+        e.target.classList.remove('loading');
+        e.target.removeAttribute('disabled');
+    },2000);
+    };
+
+    var btns = document.querySelectorAll('#Load');
+    for (var i=btns.length-1;i>=0;i--) {
+        btns[i].addEventListener('click',loading);
+    }   
+</script>

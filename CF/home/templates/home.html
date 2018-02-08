@@ -1,0 +1,73 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+{% load custom_tags %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>	
+<title>Comment Filter</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<link rel="stylesheet" href="/static/css/magic.css" type = "text/css" />
+<link rel="stylesheet" href="/static/css/style.css" type = "text/css" />
+<link rel="stylesheet" href="/static/css/default.css" type = "text/css" media="all" />
+</head>
+<body>
+<div id="wrapper">
+	<div id="header-wrapper">
+		<div id="header" class="container">
+			<div id="logo">
+				<h1><a href="/home/">CommentFilter</a></h1>
+			</div>
+			<div id="menu">
+				<ul>
+					<li class="active"><a href="#" accesskey="1" title="">Homepage</a></li>
+					<li><a href="/table/" accesskey="2" title="">History</a></li>
+					
+					<li><a href="/hot/" accesskey="4" title="">Hot video</a></li>
+					<li><a href="#" accesskey="5" title="">Contact Us</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+{% if error %}
+     <script>
+	 alert("please key-in the web-site");
+	 </script>
+ {% endif %}
+				 <!-----start-main---->
+				 <div class="login-form">
+			 		<div class="logo">
+	         			 <img src="/static/images/logoo.png" alt=""/>
+					</div>
+                    <div id="replace">
+			 		<h1>Comment Filter</h1>	
+                    <form action="/search/" method = "get">
+                        <input type="text" class="text" value="Search the video you like..." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search the video you like...';}" name="youtube_address" >
+                        <input type="submit" value="" onclick="magic()"></button>
+                    </form>
+                    </div>
+				 </div>
+                 
+		  		<!-----start-copyright---->
+   					<div class="copy-right">
+						<p>&copy; Copyright LiAn-Huang and Leo.</p>
+					</div>
+				<!-----//end-copyright---->
+</div>
+</body>
+</html>
+<script>
+    function magic(){
+        $.get("/magic/", function(ret){
+          $('#replace').replaceWith(ret) ;
+        })
+         
+    }
+</script>

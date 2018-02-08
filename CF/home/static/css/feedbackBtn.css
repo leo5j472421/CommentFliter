@@ -1,0 +1,23 @@
+
+.myButton {
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  text-shadow: 1px 1px 3px #965f96;
+  font-family: Georgia;
+  color: #541354;
+  font-size: 25px;
+  background: #3498db;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+
+.myButton:hover {
+  background: #ffffff;
+  background-image: -webkit-linear-gradient(top, #ffffff, #ff0000);
+  background-image: -moz-linear-gradient(top, #ffffff, #ff0000);
+  background-image: -ms-linear-gradient(top, #ffffff, #ff0000);
+  background-image: -o-linear-gradient(top, #ffffff, #ff0000);
+  background-image: linear-gradient(to bottom, #ffffff, #ff0000);
+  text-decoration: none;
+}
